@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <!--
+      Cabecera del documento HTML.
+
+      - Definición de codificación UTF-8.
+      - Configuración responsive para móviles.
+      - Título de la pestaña.
+      - Enlace al archivo CSS local.
+      - Enlace a Bootstrap 5 (CDN).
+    -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Manager - Gestiona tus tareas</title>
+
+    <!-- Enlace al CSS principal del proyecto -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+
+    <!-- Bootstrap 5: estilos base modernos y responsivos -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!--
+      CONTENEDOR PRINCIPAL:
+      Divide la pantalla en dos secciones:
+      - Panel izquierdo: branding y texto informativo.
+      - Panel derecho: formulario de login.
+    -->
+    <div class="container">
+      <!-- PANEL IZQUIERDO: Presentación -->
+      <div class="left-panel">
+        <h1>📋 Task Manager</h1>
+        <p>Organiza tu vida, alcanza tus metas y mantén todo bajo control</p>
+
+        <!-- Lista de características destacadas -->
+        <div class="features">
+          <div class="feature-item">Gestión eficiente de tareas</div>
+          <div class="feature-item">Interfaz intuitiva y moderna</div>
+          <div class="feature-item">Acceso desde cualquier lugar</div>
+          <div class="feature-item">Seguro y confiable</div>
+        </div>
+      </div>
+
+      <!-- PANEL DERECHO: Login -->
+      <div class="right-panel">
+        <div class="login-header">
+          <h2>Bienvenido</h2>
+          <p>Inicia sesión para continuar</p>
+        </div>
+
+        <!-- Muestra mensaje de error si el servidor lo envía -->
+        {% if message %}
+        <div class="error-message">{{ message }}</div>
+        {% endif %}
+
+        <!-- Formulario de inicio de sesión -->
+        <form action="/login" method="POST">
+          <!-- Campo de email -->
+          <div class="form-group">
+            <label for="email">Correo electrónico</label>
+            <div class="input-wrapper">
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="tu@email.com"
+                required
+                autocomplete="email"
+              />
+              <span class="input-icon">📧</span>
+            </div>
+          </div>
+
+          <!-- Campo de contraseña -->
+          <div class="form-group">
+            <label for="password">Contraseña</label>
+            <div class="input-wrapper">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="••••••••"
+                required
+                autocomplete="current-password"
+              />
+              <span class="input-icon">🔒</span>
+            </div>
+          </div>
+
+          <!-- Botón para enviar el formulario -->
+          <button type="submit" class="btn-login">Iniciar Sesión</button>
+        </form>
+
+        <!-- Enlace para abrir el modal de registro -->
+        <div class="register-link">
+          ¿No tienes cuenta?
+          <a href="#" data-bs-toggle="modal" data-bs-target="#user-modal">
+            Regístrate aquí
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         MODAL: FORMULARIO PARA REGISTRAR NUEVO USUARIO
+         ============================================================ -->
+    <div class="modal fade" id="user-modal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Encabezado del modal -->
+          <div class="modal-header">
+            <h1 class="modal-title fs-5">Nuevo usuario</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Cerrar"
+            ></button>
+          </div>
+
+          <!-- Cuerpo del modal: formulario de registro -->
+          <div class="modal-body">
+            <form action="/new-user" method="post">
+              <div class="row">
+                <!-- Campo: Nombre -->
+                <div class="col-6">
+                  <label>Nombre</label>
+                  <input
+                    type="text"
+                    class="form-control mb-3"
+                    name="name"
+                    required
+                  />
+                </div>
+
+                <!-- Campo: Apellidos -->
+                <div class="col-6">
+                  <label>Apellidos</label>
+                  <input
+                    type="text"
+                    class="form-control mb-3"
+                    name="surnames"
+                    required
+                  />
+                </div>
+              </div>
+
+              <!-- Campo: Email -->
+              <label>Email</label>
+              <input
+                type="email"
+                class="form-control mb-3"
+                name="email"
+                required
+              />
+
+              <!-- Campo: Contraseña -->
+              <label>Contraseña</label>
+              <input
+                type="password"
+                class="form-control mb-3"
+                name="password"
+                required
+              />
+
+              <!-- Campo: Teléfono (validación: exactamente 10 dígitos) -->
+              <label>Teléfono</label>
+              <input
+                type="text"
+                class="form-control mb-3"
+                name="telefono"
+                maxlength="10"
+                pattern="\d{10}"
+                title="Debe contener exactamente 10 dígitos"
+                required
+              />
+
+              <button type="submit" class="btn btn-primary w-100">
+                Guardar
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         LIBRERÍAS JAVASCRIPT
+         ============================================================ -->
+    <!-- Bootstrap 5 (JS + Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!--
+      Animación simple al cargar la página:
+      - Hace que el contenedor aparezca suavemente desde abajo.
+    -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const container = document.querySelector(".container");
+
+        container.style.opacity = "0";
+        container.style.transform = "translateY(20px)";
+
+        setTimeout(() => {
+          container.style.transition = "all 0.6s ease";
+          container.style.opacity = "1";
+          container.style.transform = "translateY(0)";
+        }, 100);
+      });
+    </script>
+  </body>
+</html>

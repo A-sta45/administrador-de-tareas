@@ -1,0 +1,180 @@
+/* ================================
+   ESTÉTICA GENERAL
+=================================== */
+
+/* Estilo global del body */
+body {
+    /* Fondo con degradado diagonal */
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+    /* Asegura que el fondo cubra toda la pantalla en altura */
+    min-height: 100vh;
+
+    /* Fuente general del sitio */
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+
+    /* Espacio en la parte inferior para evitar que los modales o cards tapen el contenido */
+    padding-bottom: 40px;
+}
+
+/* Contenedor principal */
+.container {
+    margin-top: 30px;  /* Separación desde el navbar */
+}
+
+/* ================================
+   NAVBAR
+=================================== */
+
+.navbar {
+    /* Fondo blanco semitransparente */
+    background: rgba(255, 255, 255, 0.95) !important;
+
+    /* Sombra inferior para destacar el navbar */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+
+    /* Efecto borroso tipo “glassmorphism” */
+    backdrop-filter: blur(10px);
+}
+
+/* Título del navbar */
+.navbar-brand {
+    color: #764ba2 !important;   /* Color púrpura */
+    font-size: 1.5rem;            /* Tamaño grande */
+    letter-spacing: 1px;          /* Separación entre letras */
+}
+
+.navbar span {
+    font-weight: 500;
+    color: #444;                  /* Gris oscuro */
+}
+
+/* ================================
+   BOTONES REDONDOS SUPERIORES
+   (Add task / Add user)
+=================================== */
+
+.card-icon-panel {
+    /* Fondo translúcido */
+    background: rgba(255, 255, 255, 0.25);
+
+    /* Efecto vidrio */
+    backdrop-filter: blur(12px);
+
+    /* Bordes redondeados */
+    border-radius: 20px;
+
+    /* Sombra para efecto flotante */
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+
+    /* Espaciado interno vertical */
+    padding: 15px 0;
+
+    /* Animación suave al hacer hover */
+    transition: transform 0.2s ease;
+}
+
+/* Efecto al pasar el mouse sobre el panel */
+.card-icon-panel:hover {
+    transform: translateY(-4px);  /* Se eleva ligeramente */
+}
+
+/* Contenedor que guarda los íconos */
+.card-icon-panel .card-body {
+    display: flex;
+    justify-content: center;
+    gap: 25px !important; /* separación horizontal entre iconos */
+}
+
+/* Estilo para los botones circulares con íconos */
+.card-icon-panel img {
+    width: 48px !important;
+    height: 48px !important;
+
+    /* Espaciado interno para que el icono no pegue con el borde */
+    padding: 12px;
+
+    /* Convertir en círculo */
+    border-radius: 50%;
+
+    /* Fondo translúcido blanco */
+    background: rgba(255, 255, 255, 0.45);
+
+    /* Efecto de vidrio */
+    backdrop-filter: blur(8px);
+
+    /* Sombra ligera */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.20);
+
+    cursor: pointer;
+
+    /* Animación suave */
+    transition: all 0.25s ease;
+}
+
+/* Hover elegante para los íconos */
+.card-icon-panel img:hover {
+    background: rgba(255, 255, 255, 0.85); /* Fondo más blanco */
+    transform: scale(1.12);               /* Aumenta tamaño */
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* ================================
+   TARJETAS DE TAREAS
+=================================== */
+
+.card {
+    border-radius: 15px !important;       /* Bordes redondeados */
+    overflow: hidden;                     /* Ocultar bordes sobresalientes */
+    border: none !important;              /* Sin borde estándar */
+
+    /* Sombra elegante */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+
+    transition: transform 0.2s ease;      /* Animación al hacer hover */
+}
+
+/* Efecto zoom en hover */
+.card:hover {
+    transform: scale(1.03);
+}
+
+.card-header {
+    /* Fondo degradado igual al del body */
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;              /* Texto blanco */
+    font-weight: 600;          /* Texto grueso */
+    text-align: center;        /* Centrado */
+    font-size: 1.1rem;         /* Tamaño medio */
+}
+
+.card-footer {
+    background: #f7f7f7;       /* Color gris suave */
+}
+
+/* ================================
+   MODALES
+=================================== */
+
+.modal-content {
+    border-radius: 20px;       /* Bordes redondeados */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); /* Sombra más fuerte */
+}
+
+/* Encabezado del modal */
+.modal-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Degradado */
+    color: white;                /* Texto blanco */
+    border-radius: 20px 20px 0 0; /* Bordes redondeados solo arriba */
+}
+
+/* Botón principal */
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border: none;
+}
+
+/* Hover del botón */
+.btn-primary:hover {
+    opacity: 0.9;   /* Ligero oscurecimiento */
+}

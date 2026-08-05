@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- ---------------------------------------------------------
+         METADATOS Y CONFIGURACIÓN GENERAL DEL DOCUMENTO
+    ---------------------------------------------------------- -->
+    <meta charset="UTF-8" />
+    <!-- Permite caracteres especiales -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mis Tareas</title>
+
+    <!-- ---------------------------------------------------------
+         BOOTSTRAP CSS DESDE CDN
+         Se usa para estilos, grids, modales, botones, etc.
+    ---------------------------------------------------------- -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- ---------------------------------------------------------
+         CSS PERSONALIZADO
+         Archivo propio dentro de /static/css/tasks.css
+    ---------------------------------------------------------- -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/tasks.css') }}"
+    />
+  </head>
+
+  <body>
+    <!-- ==========================================================
+         NAVBAR SUPERIOR
+    =========================================================== -->
+    <nav class="navbar navbar-expand-lg bg-light">
+      <div class="container-fluid">
+        <!-- Título de la aplicación -->
+        <a class="navbar-brand fw-bolder" href="#">MIS TAREAS</a>
+
+        <!-- Info del usuario obtenida desde la sesión -->
+        <span>
+          Bienvenido/a {{session['name']}} {{session['surnames']}}
+          <a href="{{url_for('logout')}}" class="mx-3">Salir</a>
+        </span>
+      </div>
+    </nav>
+
+    <!-- ==========================================================
+         CONTENEDOR PRINCIPAL
+    =========================================================== -->
+    <div class="container">
+      <!-- ---------------------------------------------------------
+           PANEL DE ÍCONOS (Crear tarea / Crear usuario)
+      ---------------------------------------------------------- -->
+      <div
+        class="card card-icon-panel mt-4 w-25 mx-auto d-flex justify-content-center"
+      >
+        <div class="card-body d-flex justify-content-center gap-4">
+          <!-- Ícono para abrir el modal de Nueva Tarea -->
+          <img
+            src="{{url_for('static', filename='images/plus-circle-solid.svg')}}"
+            width="40"
+            data-bs-toggle="modal"
+            data-bs-target="#task-modal"
+          />
+
+          <!-- Ícono para abrir el modal de Nuevo Usuario -->
+          <img
+            src="{{url_for('static', filename='images/user-plus-solid.svg')}}"
+            width="40"
+            data-bs-toggle="modal"
+            data-bs-target="#user-modal"
+          />
+        </div>
+      </div>
+
+      <!-- ==========================================================
+           GRID RESPONSIVE DE TARJETAS DE TAREAS
+      =========================================================== -->
+      <div
+        class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 mt-4"
+      >
+        <!--
+          Bucle Jinja que recorre la lista 'tasks' enviada por Flask.
+          Crea una tarjeta por cada tarea.
+        -->
+        {% for task in tasks %}
+        <div class="col mb-4">
+          <div class="card">
+            <!-- Título de la tarjeta -->
+            <div class="card-header">{{ task.title }}</div>
+
+            <!-- Descripción -->
+            <div class="card-body">{{ task.description }}</div>
+
+            <!-- Fecha + botón eliminar -->
+            <div
+              class="card-footer d-flex justify-content-between align-items-center"
+            >
+              {{ task.date_task }}
+
+              <!-- Formulario para eliminar usando POST -->
+              <form action="/delete-task" method="POST">
+                <!-- ID oculto -->
+                <input type="hidden" name="id" value="{{ task.id }}" />
+
+                <button type="submit" class="btn btn-outline-danger btn-sm">
+                  Eliminar
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        <!-- Fin del bucle Jinja -->
+      </div>
+    </div>
+
+    <!-- ==========================================================
+         BOOTSTRAP JS (NECESARIO PARA MODALES Y COMPONENTES)
+    =========================================================== -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- ==========================================================
+         MODAL: NUEVA TAREA
+    =========================================================== -->
+    <div class="modal fade" id="task-modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Encabezado del modal -->
+          <div class="modal-header">
+            <h1 class="modal-title fs-5">Nueva tarea</h1>
+
+            <!-- Botón para cerrar -->
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+
+          <!-- Cuerpo del modal -->
+          <div class="modal-body">
+            <form action="/new-task" method="post">
+              <label>Título</label>
+              <input type="text" class="form-control mb-3" name="title" />
+
+              <label>Descripción</label>
+              <textarea
+                class="form-control mb-3"
+                name="description"
+                rows="5"
+              ></textarea>
+
+              <button type="submit" class="btn btn-primary w-100">
+                Guardar
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================
+         MODAL: NUEVO USUARIO
+    =========================================================== -->
+    <div class="modal fade" id="user-modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Encabezado -->
+          <div class="modal-header">
+            <h1 class="modal-title fs-5">Nuevo usuario</h1>
+
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+
+          <!-- Cuerpo del modal -->
+          <div class="modal-body">
+            <form action="/new-user" method="post">
+              <!-- Inputs de nombre y apellidos en 2 columnas -->
+              <div class="row">
+                <div class="col-6">
+                  <label>Nombre</label>
+                  <input
+                    type="text"
+                    class="form-control mb-3"
+                    name="name"
+                    required
+                  />
+                </div>
+
+                <div class="col-6">
+                  <label>Apellidos</label>
+                  <input
+                    type="text"
+                    class="form-control mb-3"
+                    name="surnames"
+                    required
+                  />
+                </div>
+              </div>
+
+              <!-- Email -->
+              <label>Email</label>
+              <input
+                type="email"
+                class="form-control mb-3"
+                name="email"
+                required
+              />
+
+              <!-- Contraseña -->
+              <label>Contraseña</label>
+              <input
+                type="password"
+                class="form-control mb-3"
+                name="password"
+                required
+              />
+
+              <!-- Teléfono con validación: exactamente 10 dígitos -->
+              <label>Teléfono</label>
+              <input
+                type="text"
+                class="form-control mb-3"
+                name="telefono"
+                maxlength="10"
+                pattern="\d{10}"
+                title="Debe contener exactamente 10 dígitos"
+                required
+              />
+
+              <button type="submit" class="btn btn-primary w-100">
+                Guardar
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
