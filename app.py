@@ -1,6 +1,7 @@
 # ----------------------------------------------
 # Importación de librerías necesarias para Flask
 # ----------------------------------------------
+import os
 from flask import Flask, render_template, request, session, redirect, url_for
 import config  # Archivo de configuración (host, user, pass, keys)
 from datetime import datetime  # Para generar fecha/hora actual de tareas
@@ -90,8 +91,8 @@ class Subject:
 # ---------------------------------------------------------------
 class ChatBotObserver:
     def __init__(self):
-        # Token del bot de Telegram
-        self.token = "8596295480:AAETegwt-0osrbFQl8xGXyfHvF2KK616ic0"
+        # Token del bot de Telegram (configurar con la variable de entorno TELEGRAM_BOT_TOKEN)
+        self.token = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 
         # ID del chat donde se enviarán los mensajes
         self.chat_id = 0000000
