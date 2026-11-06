@@ -2,10 +2,13 @@
 # Importación de librerías necesarias para Flask
 # ----------------------------------------------
 import os
+from dotenv import load_dotenv
 from flask import Flask, render_template, request, session, redirect, url_for
 import config  # Archivo de configuración (host, user, pass, keys)
 from datetime import datetime  # Para generar fecha/hora actual de tareas
 import requests  # Para realizar peticiones HTTP (Telegram Bot API)
+
+load_dotenv()  # Carga variables desde .env (no se sube a GitHub)
 
 # ----------------------------------------------------
 # Crear la instancia principal de la aplicación Flask
